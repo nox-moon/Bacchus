@@ -18,8 +18,8 @@ def build_prefix(recipe)
 	win = recipe['win']
 
 	# build the prefix
-	output = 'WINEARCH=' + arch + ' WINEPREFIX=~/.bacchus/prefixes/' + prefix_name + ' winecfg &> /dev/null'
-	system output, :out => File::NULL
+	cmd = 'WINEARCH=' + arch + ' WINEPREFIX=~/.bacchus/prefixes/' + prefix_name + ' winecfg &> /dev/null'
+	system cmd, :out => File::NULL
 end
 
 def winetricks(recipe)
@@ -64,8 +64,8 @@ def install_dir(path, prefix_name = nil)
 	end
 
 	# TODO Be smart and don't just dump the contents if the user adds a slash to the end
-	output = 'cp -r ' + path + ' ~/.bacchus/prefixes/' + prefix_name + '/drive_c/Program\ Files'
-	system output
+	cmd = 'cp -r ' + path + ' ~/.bacchus/prefixes/' + prefix_name + '/drive_c/Program\ Files'
+	system cmd
 end
 
 def launch_setup(path, prefix_name = nil, locale = nil)
@@ -74,11 +74,11 @@ def launch_setup(path, prefix_name = nil, locale = nil)
 	end
 
 	if locale == ""
-		output = 'WINEPREFIX=' + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + ' wine ' + path
+		cmd = 'WINEPREFIX=' + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + ' wine ' + path
 	else
-		output = 'WINEPREFIX=' + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name+  ' LANG="' + locale + '" wine ' + path
+		cmd = 'WINEPREFIX=' + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name+  ' LANG="' + locale + '" wine ' + path
 	end
-	system output
+	system cmd
 end
 
 def build_launcher(recipe)
