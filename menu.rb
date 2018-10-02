@@ -5,7 +5,6 @@ def menu()
     Ncurses.cbreak
     Ncurses.noecho
     Ncurses.keypad(scr, true)
-    Ncurses.start_color
 
     # Initial menu
     choices = [ "Install",
