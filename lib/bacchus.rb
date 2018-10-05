@@ -1,0 +1,5 @@
+require 'bacchus/helpers.rb'
+require 'bacchus/backup.rb'
+require 'bacchus/search.rb'
+require 'bacchus/menu.rb'
+require 'bacchus/init.rb'
