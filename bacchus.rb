@@ -3,6 +3,9 @@ require './helpers.rb'
 require './backup.rb'
 require './search.rb'
 require './menu.rb'
+require './init.rb'
+
+init_dots()
 
 # Parsing options
 options = {}
