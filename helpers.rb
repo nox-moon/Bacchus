@@ -84,7 +84,16 @@ end
 def build_launcher(hash)
 	exe = hash['exe']
 	prefix_name = hash['name']
-	path = Shellwords.escape hash['path']
+	
+	# Get the full file path
+	cmd = "find " + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + " drive_c -name " + exe + ".exe"
+	full_path = Shellwords.escape `#{cmd}`
+
+	# Get the directory path
+	cmd = "dirname " + full_path
+	dirname = Shellwords.escape `#{cmd}`
+	3.times do dirname.chop! end # TODO: This makes me super uncomfortable
+
 	locale = hash['locale']
 
 	if !prefix_name
@@ -97,7 +106,7 @@ def build_launcher(hash)
 	file = File.new(name, 'w')
 	open(name, 'a') { |f|
 	 	f.puts '#!/bin/bash'
-	 	f.puts 'cd ' + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + path
+	 	f.puts 'cd ' + dirname.strip
 	 	if locale == ""
 	 		f.puts 'WINEPREFIX=' + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + ' wine ' + exe + ".exe"
 	 	else
