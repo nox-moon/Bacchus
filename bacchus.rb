@@ -75,21 +75,21 @@ end
 if options[:install] != false
 
     # parse
-    hash = parse(options[:install])
+    recipe = parse(options[:install])
 
     # build the prefix
-    build_prefix(hash)
+    build_prefix(recipe)
 
     # winetricks
-    if hash['winetricks'] != ""
-        winetricks(hash)
+    if recipe['winetricks'] != ""
+        winetricks(recipe)
     end
 
     # install
-    install(hash)
+    install(recipe)
 
     # build the launcher script
-    build_launcher(hash)
+    build_launcher(recipe)
 end
 
 if options[:delete] != false

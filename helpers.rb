@@ -12,26 +12,26 @@ def parse(file_name)
 	data_hash = JSON.parse(file)
 end
 
-def build_prefix(hash)
-	prefix_name = hash['name']
-	arch = hash['arch']
-	win = hash['win']
+def build_prefix(recipe)
+	prefix_name = recipe['name']
+	arch = recipe['arch']
+	win = recipe['win']
 
 	# build the prefix
-	output = 'WINEARCH=' + arch + ' WINEPREFIX=~/.bacchus/prefixes/' + prefix_name + ' winecfg &> /dev/null'
-	system output, :out => File::NULL
+	cmd = 'WINEARCH=' + arch + ' WINEPREFIX=~/.bacchus/prefixes/' + prefix_name + ' winecfg &> /dev/null'
+	system cmd, :out => File::NULL
 end
 
-def winetricks(hash)
-	prefix_name = hash['name']
-	cmd = 'WINEPREFIX='  + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + ' winetricks ' + hash['winetricks']
+def winetricks(recipe)
+	prefix_name = recipe['name']
+	cmd = 'WINEPREFIX='  + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + ' winetricks ' + recipe['winetricks']
 	system cmd
 end
 
-def install(hash)
-	type = hash['type']
-	software_name = hash['name']
-	locale = hash['locale']
+def install(recipe)
+	type = recipe['type']
+	software_name = recipe['name']
+	locale = recipe['locale']
 
 	# Clear the screen in case there is a bunch of winetricks text
 	# Makes it easy for the user to see they actually need to do something
@@ -64,8 +64,8 @@ def install_dir(path, prefix_name = nil)
 	end
 
 	# TODO Be smart and don't just dump the contents if the user adds a slash to the end
-	output = 'cp -r ' + path + ' ~/.bacchus/prefixes/' + prefix_name + '/drive_c/Program\ Files'
-	system output
+	cmd = 'cp -r ' + path + ' ~/.bacchus/prefixes/' + prefix_name + '/drive_c/Program\ Files'
+	system cmd
 end
 
 def launch_setup(path, prefix_name = nil, locale = nil)
@@ -74,18 +74,18 @@ def launch_setup(path, prefix_name = nil, locale = nil)
 	end
 
 	if locale == ""
-		output = 'WINEPREFIX=' + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + ' wine ' + path
+		cmd = 'WINEPREFIX=' + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + ' wine ' + path
 	else
-		output = 'WINEPREFIX=' + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name+  ' LANG="' + locale + '" wine ' + path
+		cmd = 'WINEPREFIX=' + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name+  ' LANG="' + locale + '" wine ' + path
 	end
-	system output
+	system cmd
 end
 
-def build_launcher(hash)
-	exe = hash['exe']
-	prefix_name = hash['name']
-	path = Shellwords.escape hash['path']
-	locale = hash['locale']
+def build_launcher(recipe)
+	exe = recipe['exe']
+	prefix_name = recipe['name']
+	path = Shellwords.escape recipe['path']
+	locale = recipe['locale']
 
 	if !prefix_name
 		prefix_name = '~/.wine'
