@@ -84,15 +84,23 @@ end
 def build_launcher(recipe)
 	exe = recipe['exe']
 	prefix_name = recipe['name']
-	
-	# Get the full file path
-	cmd = "find " + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + " drive_c -name " + exe + ".exe"
-	full_path = Shellwords.escape `#{cmd}`
 
-	# Get the directory path
-	cmd = "dirname " + full_path
-	dirname = Shellwords.escape `#{cmd}`
-	3.times do dirname.chop! end # TODO: This makes me super uncomfortable
+	path = ""
+	if recipe['path'] != ''
+		path = Shellwords.escape recipe['path']
+		path = ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + path
+	else
+		# Get the full file path
+		cmd = "find " + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + " drive_c -name " + exe + ".exe"
+		full_path = Shellwords.escape `#{cmd}`
+
+		# Get the directory path
+		cmd = "dirname " + full_path
+		dirname = Shellwords.escape `#{cmd}`
+		3.times do dirname.chop! end # TODO: This makes me super uncomfortable
+
+		path = dirname.strip
+	end
 
 	locale = recipe['locale']
 
@@ -106,7 +114,7 @@ def build_launcher(recipe)
 	file = File.new(name, 'w')
 	open(name, 'a') { |f|
 	 	f.puts '#!/bin/bash'
-	 	f.puts 'cd ' + dirname.strip
+	 	f.puts 'cd ' + path
 	 	if locale == ""
 	 		f.puts 'WINEPREFIX=' + ENV['HOME'] + '/.bacchus/prefixes/' + prefix_name + ' wine ' + exe + ".exe"
 	 	else
