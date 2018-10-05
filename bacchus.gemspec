@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
-  s.name        = 'Bacchus-Wine'
-  s.version     = '0.1.0'
+  s.name        = 'bacchus-wine'
+  s.version     = '0.1.1'
   s.date        = '2018-10-04'
   s.summary     = "A wine application manager"
   s.description = "A CLI utility for installing and managing applications with wine."
