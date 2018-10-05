@@ -57,7 +57,7 @@ if options[:update] != false
         cmd = 'cd ' + dir + '; git pull &> /dev/null'
         system cmd
     else
-        cmd = 'git clone https://github.com/spencerking/bacchus-winemaker.git ' + dir
+        cmd = 'git clone https://github.com/Bacchus-Wine/bacchus-winemaker.git ' + dir
         system cmd
     end
 
