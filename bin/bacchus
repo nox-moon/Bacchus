@@ -1,9 +1,8 @@
+#!/usr/bin/env ruby
+
 require 'optparse'
-require './helpers.rb'
-require './backup.rb'
-require './search.rb'
-require './menu.rb'
-require './init.rb'
+require 'bacchus'
+
 
 init_dots()
 
@@ -12,7 +11,7 @@ options = {}
 
 optparse = OptionParser.new do |opts|
 
-	opts.banner = "Usage: bacchus.rb [options] ..."
+	opts.banner = "Usage: bacchus [options] ..."
 
     options[:update] = false
     opts.on( '-u', '--update', 'Update presets' ) { |input| options[:update] = input }

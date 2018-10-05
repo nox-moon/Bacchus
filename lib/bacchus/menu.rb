@@ -1,5 +1,5 @@
 require 'ncurses'
-require './helpers.rb'
+require 'bacchus/helpers.rb'
 
 def menu()
     scr = Ncurses.initscr
